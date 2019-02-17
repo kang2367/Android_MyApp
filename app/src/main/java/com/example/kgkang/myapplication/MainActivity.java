@@ -31,18 +31,20 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = "phpquerytest";
+    private static String TAG = "myapplication";
 
-    private static final String TAG_JSON="webnautes";
+    private static final String TAG_JSON="kgkang";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
-    private static final String TAG_ADDRESS ="address";
+    //private static final String TAG_ADDRESS ="address";
+    private static final String TAG_ADDRESS ="country";
 
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
     ListView mListViewList;
     EditText mEditTextSearchKeyword;
     String mJsonString;
+    String gstrResult;
 
 
     @Override
@@ -73,15 +75,15 @@ public class MainActivity extends AppCompatActivity {
 
     private class GetData extends AsyncTask<String, Void, String>{
 
-        ProgressDialog progressDialog;
+        //ProgressDialog progressDialog;
         String errorString = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            progressDialog = ProgressDialog.show(MainActivity.this,
-                    "Please Wait", null, true, true);
+            //progressDialog = ProgressDialog.show(MainActivity.this,
+              //      "Please Wait", null, true, true);
         }
 
 
@@ -89,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             mTextViewResult.setText(result);
             Log.d(TAG, "response - " + result);
+            gstrResult = result;
 
             if (result == null){
 
@@ -177,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            mTextViewResult.setText(gstrResult + "\r\n" + jsonArray.length());
 
             for(int i=0;i<jsonArray.length();i++){
 
