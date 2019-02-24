@@ -34,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private static String TAG = "myapplication";
 
     private static final String TAG_JSON="kgkang";
+    private static final String TAG_TITLE = "title";
     private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
+    private static final String TAG_PW = "pw";
+    //private static final String TAG_NAME = "name";
     //private static final String TAG_ADDRESS ="address";
-    private static final String TAG_ADDRESS ="country";
+    //private static final String TAG_ADDRESS ="country";
+    private static final String TAG_DESCRIPTION ="description";
 
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
@@ -113,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
             String searchKeyword = params[0];
 
-            String serverURL = "http://ec2-13-209-64-25.ap-northeast-2.compute.amazonaws.com/query.php";
-            String postParameters = "country=" + searchKeyword;
+            String serverURL = "http://ec2-13-209-64-25.ap-northeast-2.compute.amazonaws.com/queryEC2.php";
+            String postParameters = "title=" + searchKeyword;
 
             try {
 
@@ -187,23 +190,30 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
+                String title = item.getString(TAG_TITLE);
                 String id = item.getString(TAG_ID);
-                String name = item.getString(TAG_NAME);
-                String address = item.getString(TAG_ADDRESS);
+                //String name = item.getString(TAG_NAME);
+                //String address = item.getString(TAG_ADDRESS);
+                String pw = item.getString(TAG_PW);
+                String description = item.getString(TAG_DESCRIPTION);
 
                 HashMap<String,String> hashMap = new HashMap<>();
 
+                hashMap.put(TAG_TITLE, title);
                 hashMap.put(TAG_ID, id);
-                hashMap.put(TAG_NAME, name);
-                hashMap.put(TAG_ADDRESS, address);
+                hashMap.put(TAG_PW, pw);
+                hashMap.put(TAG_DESCRIPTION, description);
+                //hashMap.put(TAG_NAME, name);
+                //hashMap.put(TAG_ADDRESS, address);
 
                 mArrayList.add(hashMap);
             }
 
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, mArrayList, R.layout.item_list,
-                    new String[]{TAG_ID,TAG_NAME, TAG_ADDRESS},
-                    new int[]{R.id.textView_list_id, R.id.textView_list_name, R.id.textView_list_address}
+                    //new String[]{TAG_ID,TAG_NAME, TAG_ADDRESS},
+                    new String[]{TAG_TITLE, TAG_ID, TAG_PW},
+                    new int[]{R.id.textView_list_title, R.id.textView_list_id, R.id.textView_list_pw}
             );
 
             mListViewList.setAdapter(adapter);
